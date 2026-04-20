@@ -1,12 +1,9 @@
-const { sequelize } = require('../models');
+const { User } = require('../models');
+const bcrypt = require('bcrypt');
 
 (async () => {
-  try {
-    await sequelize.sync({ force: true });
-    console.log('Database synced');
-    process.exit();
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
-  }
+  const password = await bcrypt.hash('password', 10);
+  await User.create({ email: 'test@test.com', password });
+  console.log('Seeded');
+  process.exit();
 })();
